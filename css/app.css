@@ -1,0 +1,136 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+
+    background-image: url("../img/pexels-ian-turnell-709552.jpg");
+    background-repeat: no-repeat;
+    background-size: 1800px auto;
+    background-color: black;
+    background-position: center top;
+
+}
+
+#elf{
+    position: absolute;
+    left: calc(50% - 98px);
+    top: 390px;
+    transition: all 0.3s ease-in;
+}
+
+#elf.move-me {
+    animation: move-me 13s infinite;
+}
+@keyframes move-me {
+    33.33% { transform: translateX(-150px) translateY(-2px); }
+    66.66% { transform: translateX(150px) translateY(2px); }
+    99.99% { transform: translateX(0px); }
+}
+
+#flat-mouth{
+    display: none;
+}
+
+#round-mouth.sad {
+    transform-origin: center;
+    transform: scaleY(-1) translateY(42px);
+}
+
+#nose {
+    fill: green;
+}
+
+.eyes {
+    fill: green;
+    transform: translateX(-5px) translateY(-10px);
+}
+
+#shell{
+    position: absolute;
+    left: calc(50% - 601px);
+    top: -230px;
+}
+
+button {
+    background-color: #2BA045;
+    padding: 10px;
+    border-radius: 64px;
+    border: none;
+    font-size: 22px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+#buttons {
+    width: 350px;
+    position: absolute;
+    left: calc(50% - 175px);
+    top: 890px;
+    text-align: center;
+}
+#buttons button:last-child{
+    margin-right: 0px;
+}
+
+#msg-input {
+    position: absolute;
+    z-index: 1;
+    font-size: 30px;
+    width: 300px;
+    height: 50px;
+    padding: 4px;
+    left: calc(50% - 150px);
+    top: 970px;
+    border-radius: 10px;
+    border: 1px solid darkgray;
+}
+
+#speech-bubble{
+    position: absolute;
+    width: 350px;
+    min-height: 130px;
+    background: white;
+    top: 150px;
+    left: calc(50% - 60px);
+    border-radius: 30px;
+    padding: 20px;
+    font-size: 20px;
+    transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    opacity: 0;
+}
+#speech-bubble::before {
+    content: "";
+    width: 60px;
+    height: 48px;
+    background: url(../img/spike.svg) no-repeat center top;
+    background-size: 100%;
+    display: block;
+    position: absolute;
+    bottom: -48px;
+    left: 50%;
+}
+
+#round-mouth.speak{
+    animation: speech 0.5s infinite step-start;
+    transform-origin: center;
+}
+@keyframes speech{
+    50% {
+        transform: scaleY(1.7);
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    body {
+        scale: 0.6;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    body {
+        scale: 0.4;
+    }
+}
