@@ -1,0 +1,30 @@
+[
+    {
+        "question" : "how are you",
+        "answer" : ["I am fine, and yourself?"]
+    },
+    {
+        "question" : "who are you",
+        "answer" : ["I am the Elf."]
+    },
+    {
+        "question" : "joke",
+        "answer" : [
+            "What did the horse say after it tripped? Help! I’ve fallen and I can’t giddyup!",
+            "What do you call an angry carrot? A steamed veggie.",
+            "What would bears be without bees? Ears."
+        ]
+    },
+    {
+        "question" : "hello",
+        "answer" : ["Hi there!", "Howdy!", "Hello!"]
+    },
+    {
+        "question" : "favorite song|lullaby",
+        "answer" : ["Jingle Bells", "Oh Tannenbaum"]
+    },
+    {
+        "question" : "favorite movie|film",
+        "answer" : ["Scary Movie 2", "Nightmare before Christmas"]
+    }
+]
