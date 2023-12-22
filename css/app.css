@@ -29,6 +29,27 @@ body{
     66.66% { transform: translateX(150px) translateY(2px); }
     99.99% { transform: translateX(0px); }
 }
+#left-leg.walk{
+    animation: move-left-leg 1s infinite step-start;
+
+}
+#right-leg.walk{
+    animation: move-right-leg 1s infinite step-start;
+    transform: translateY(-10px);
+}
+
+@keyframes move-left-leg {
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes move-right-leg {
+    50% {
+        transform: translateY(0px);
+    }
+}
+
 
 #flat-mouth{
     display: none;
@@ -122,6 +143,29 @@ button {
         transform: scaleY(1.7);
     }
 }
+
+
+
+#bored {
+    position: absolute;
+    left: calc(50% - 300px);
+    width: 200px;
+    height: 25px;
+    top: 150px;
+    display: none;
+}
+#hungry{
+    position: absolute;
+    left: calc(50% - 200px);
+    width: 200px;
+    height: 25px;
+    top: 150px;
+    display: none;
+}
+
+
+
+/* Responsive */
 
 @media only screen and (max-width: 1024px) {
     body {
