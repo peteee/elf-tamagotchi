@@ -1,8 +1,20 @@
 console.log("Cup of coffee ☕");
 
 const elf = document.getElementById("elf");
+
+const leftLeg = document.getElementById("left-leg");
+const rightLeg = document.getElementById("right-leg");
+
 const speechBubble = document.getElementById("speech-bubble");
 const roundMouth = document.getElementById("round-mouth");
+const flatMouth = document.getElementById("flat-mouth");
+
+const walkingElf = () => {
+    elf.classList.toggle("move-me");
+    leftLeg.classList.toggle("walk");
+    rightLeg.classList.toggle("walk");
+}
+walkingElf();
 
 
 /**
@@ -37,6 +49,10 @@ const speakThis = (msg) => {
     utterance.rate = 1.1; // speed
     speechSynthesis.speak(utterance);
     
+
+    // rise mood level
+    mood = 1.2;
+
     //mouth animation
     roundMouth.classList.add("speak");
     let wordCount = msg.split(" ").length;
@@ -110,14 +126,77 @@ const parseMsg = (msg) => {
 };
 
 
+let mood = 1; //neutral
+let isHungry = false;
+let isBored = false;
+let hungryRando = 0;
+let boredRando = 0;
+
+const boredDisplay = document.getElementById("bored");
+const hungryDisplay = document.getElementById("hungry");
+
+/**
+ * Update-Loop
+ */
+setInterval(() => {
+    //console.log(elf.getBoundingClientRect().x);
+    console.log("mood: " + mood);
+
+    mood /= 1.005;
+    //mood = mood / 1.005;
+
+    // Hunger
+    console.log(hungryRando + " : " + isHungry);
+    if(hungryRando == 9) {
+        isHungry = true;
+        hungryDisplay.style.display = "block";
+    } else {
+        hungryRando = Math.floor(Math.random() * 20);
+    }
+
+    // Boredom
+    console.log(boredRando + " : " + isBored);
+    if(boredRando == 17) {
+        isBored = true;
+        boredDisplay.style.display = "block";
+    } else {
+        boredRando = Math.floor(Math.random() * 50);
+    }
+
+    if(mood < 0.7) {
+        roundMouth.style.opacity = "0";
+        flatMouth.style.display = "block";
+    }
+
+    if(mood < 0.45) {
+        roundMouth.classList.add("sad");
+        roundMouth.style.opacity = "1";
+        flatMouth.style.display = "none";
+    }
+    if(mood >= 1) {
+        roundMouth.style.opacity = "1";
+        flatMouth.style.display = "none";
+        roundMouth.classList.remove("sad");
+    } 
+
+
+}, 500);
+
+
+
 /**
  * Homework: add your own data to data.json (questions & answers)
  */
 
 /**
- * TODO : - walking / moving left & right (animation CSS & JS trigger)
+ * TODO :
  * - update loop / setInterval(() => { // do stuff }, 1000);
  * - mood factor - happy or sad | (plus random events);
  * - storage: record & repeat information (Learn Button)
  * - Play & Food button + Actions
+ */
+
+/**
+ * DONE : 
+ * - walking / moving left & right (animation CSS & JS trigger)
  */
