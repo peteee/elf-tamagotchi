@@ -147,17 +147,19 @@ setInterval(() => {
 
     // Hunger
     console.log(hungryRando + " : " + isHungry);
-    if(hungryRando == 9) {
+    if(hungryRando == 7 && !isHungry) {
         isHungry = true;
+        mood = 0.69;
         hungryDisplay.style.display = "block";
     } else {
-        hungryRando = Math.floor(Math.random() * 20);
+        hungryRando = Math.floor(Math.random() * 40);
     }
 
     // Boredom
     console.log(boredRando + " : " + isBored);
-    if(boredRando == 17) {
+    if(boredRando == 17 && !isBored) {
         isBored = true;
+        mood = 0.69;
         boredDisplay.style.display = "block";
     } else {
         boredRando = Math.floor(Math.random() * 50);
@@ -182,6 +184,29 @@ setInterval(() => {
 
 }, 500);
 
+let munchingSound = new Audio("sounds/eating-chips-81092.mp3");
+let ballSound = new Audio("sounds/plastic-ball-bounce-14790.mp3");
+
+
+function feed() {
+    mood = 1.5;
+    munchingSound.play();
+    hungryDisplay.style.display = "none";
+    let msg = "Yum yum!";
+    speakThis(msg);
+    speechBubble.innerHTML = msg;
+    speechBubble.style.opacity = "1";
+}
+
+function play() {
+    mood = 2.0;
+    boredDisplay.style.display = "none";
+    ballSound.play();
+    let msg = "Yay! Playtime!";
+    speakThis(msg);
+    speechBubble.innerHTML = msg;
+    speechBubble.style.opacity = "1";
+}
 
 
 /**
@@ -190,8 +215,6 @@ setInterval(() => {
 
 /**
  * TODO :
- * - update loop / setInterval(() => { // do stuff }, 1000);
- * - mood factor - happy or sad | (plus random events);
  * - storage: record & repeat information (Learn Button)
  * - Play & Food button + Actions
  */
@@ -199,4 +222,6 @@ setInterval(() => {
 /**
  * DONE : 
  * - walking / moving left & right (animation CSS & JS trigger)
+ * - update loop / setInterval(() => { // do stuff }, 1000);
+ * - mood factor - happy or sad | (plus random events);
  */
