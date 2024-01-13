@@ -55,9 +55,9 @@
         <button id="food" onclick="feed()">Food</button>
         <button id="play" onclick="play()">Play</button>
         <button id="talk" onclick="recognition.start();">Talk</button>
-        <button id="learn">Learn</button>
+        <button id="learn" onclick="learn()">Learn</button>
     </div>
-    <input type="text" name="" onchange="parseMsg(this.value)" placeholder="type something" id="msg-input">
+    <input type="text" name="" onchange="handleInput(this.value)" placeholder="type something" id="msg-input">
 
     <div id="speech-bubble"></div>
 
