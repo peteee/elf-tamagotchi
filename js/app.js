@@ -9,6 +9,8 @@ const speechBubble = document.getElementById("speech-bubble");
 const roundMouth = document.getElementById("round-mouth");
 const flatMouth = document.getElementById("flat-mouth");
 
+let weHaveAMatch = false;
+
 const walkingElf = () => {
     elf.classList.toggle("move-me");
     leftLeg.classList.toggle("walk");
@@ -37,8 +39,22 @@ recognition.onresult = (event) => {
     // if (receivedText === "hello") {
     //     speakThis("Hello to you too!");
     // }
-    parseMsg(receivedText);
+    handleInput(receivedText);
+
+
 };
+
+function handleInput(msg) {
+
+    if(!activeLearning)
+        parseMsg(msg);
+    else if(activeLearning && step1)
+        parseKeyword(msg);
+    else if(activeLearning && step2)
+        parseDefinition(msg);
+
+}
+
 
 /**
  * Speech Synth
@@ -63,6 +79,8 @@ const speakThis = (msg) => {
         
         //speechBubble.innerHTML = "";
         setTimeout(() => { speechBubble.style.opacity = "0"; }, 1500);
+
+        weHaveAMatch = false;
 
     }, speakTimer) //dynamic timer using our wordCount * 500 
     console.log("Elf says: " + msg);
@@ -96,10 +114,11 @@ async function callJSONData(msg) {
                 
                 let randomize = Math.floor(Math.random() * item.answer.length)
                 console.log("match: " + item.answer[randomize] );
+                
                 speakThis(item.answer[randomize]);
                 speechBubble.innerHTML = item.answer[randomize];
                 speechBubble.style.opacity = "1";
-
+                weHaveAMatch = true;
             };
 
         });
@@ -108,14 +127,39 @@ async function callJSONData(msg) {
     }
 }
 
+
+
+function callStorage(msg) {
+    console.log("CALL STORAGE: " + msg);
+    for(const [key, value] of Object.entries(localStorage)) {
+
+        if(key.substring(0, 4) === "key-") {
+            let regex = new RegExp(key.substring(5), "gi");
+            if(patternTest(regex, msg)) {
+                
+                speakThis(value);
+                speechBubble.innerHTML = value;
+                speechBubble.style.opacity = "1";
+                weHaveAMatch = true;
+
+            }
+        }
+    }
+}
+
+
+
 const parseMsg = (msg) => {
     msgInput.value = null;
     //msgInput.value = "";
     console.log(msg);
     //msg = msg.toLowerCase();
     
+
     callJSONData(msg);
     
+    if(!weHaveAMatch)
+        callStorage(msg);
     
     // if(pattern.test(msg)) {
     //     speakThis("Ok let's turn on the radio");
@@ -189,25 +233,94 @@ let ballSound = new Audio("sounds/plastic-ball-bounce-14790.mp3");
 
 
 function feed() {
-    mood = 1.5;
+    
     munchingSound.play();
     hungryDisplay.style.display = "none";
     let msg = "Yum yum!";
     speakThis(msg);
     speechBubble.innerHTML = msg;
     speechBubble.style.opacity = "1";
+
+    mood = 1.5;
 }
 
 function play() {
-    mood = 2.0;
+    
     boredDisplay.style.display = "none";
     ballSound.play();
     let msg = "Yay! Playtime!";
     speakThis(msg);
     speechBubble.innerHTML = msg;
     speechBubble.style.opacity = "1";
+
+    mood = 2.0;
 }
 
+let activeLearning = false;
+let step1 = false;
+let step2 = false;
+let travelKey = '';
+
+function learn() {
+
+    // 1. click 
+    // 2. Yay, excited; what do you want to teach me?
+    // 3. <subject> -spoken/typed by user
+    // 4. Ok, I'm all ears
+    // 5. user speaks/writes the definition -> gets stored in localStorage
+
+    console.log("Learning time...");
+    
+    let msg = "Yay, I am excited! What do you want to teach me?";
+    speakThis(msg);
+    speechBubble.innerHTML = msg;
+    speechBubble.style.opacity = "1";
+
+    // fix mood & boredom immediately
+    mood = 2.0;
+    boredDisplay.style.display = "none";
+
+    setTimeout(() => {
+        activeLearning = true;
+        recognition.start();
+        step1 = true;
+
+    }, 3000);
+
+
+}
+
+function parseKeyword(keyword) {
+    console.log("Learning: " + keyword);
+    travelKey = keyword;
+    
+    let msg = "Ok, I'm all ears";
+    speakThis(msg);
+    speechBubble.innerHTML = msg;
+    speechBubble.style.opacity = "1";
+    step1 = false;
+
+    setTimeout(() => {
+        recognition.start();
+        step2 = true;
+    }, 1500);
+
+}
+
+function parseDefinition(definition) {
+    console.log("Recording: " + definition);
+
+    localStorage.setItem(`key-${travelKey}`, definition);
+
+    let msg = "Cool, now I now what " + travelKey + " is.";
+    speakThis(msg);
+    speechBubble.innerHTML = msg;
+    speechBubble.style.opacity = "1";
+
+    activeLearning = false;
+    step2 = false;
+    
+}
 
 /**
  * Homework: add your own data to data.json (questions & answers)
@@ -215,8 +328,8 @@ function play() {
 
 /**
  * TODO :
- * - storage: record & repeat information (Learn Button)
- * - Play & Food button + Actions
+ * All done :)
+ * optional: add more icons :)
  */
 
 /**
@@ -224,4 +337,6 @@ function play() {
  * - walking / moving left & right (animation CSS & JS trigger)
  * - update loop / setInterval(() => { // do stuff }, 1000);
  * - mood factor - happy or sad | (plus random events);
+ * - Play & Food button + Actions
+ * - storage: record & repeat information (Learn Button)
  */
