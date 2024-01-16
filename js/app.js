@@ -212,17 +212,24 @@ setInterval(() => {
     if(mood < 0.7) {
         roundMouth.style.opacity = "0";
         flatMouth.style.display = "block";
+        elf.style.animationPlayState = 'paused';
     }
 
     if(mood < 0.45) {
         roundMouth.classList.add("sad");
         roundMouth.style.opacity = "1";
         flatMouth.style.display = "none";
+        elf.style.animationPlayState = 'paused';
+        leftLeg.style.animationPlayState = 'paused';
+        rightLeg.style.animationPlayState = 'paused';
     }
     if(mood >= 1) {
         roundMouth.style.opacity = "1";
         flatMouth.style.display = "none";
         roundMouth.classList.remove("sad");
+        elf.style.animationPlayState = 'running';
+        leftLeg.style.animationPlayState = 'running';
+        rightLeg.style.animationPlayState = 'running';
     } 
 
 
@@ -300,9 +307,12 @@ function parseKeyword(keyword) {
     speechBubble.style.opacity = "1";
     step1 = false;
 
+    msgInput.value = null;
+    
+    step2 = true;
+
     setTimeout(() => {
         recognition.start();
-        step2 = true;
     }, 1500);
 
 }
@@ -310,12 +320,14 @@ function parseKeyword(keyword) {
 function parseDefinition(definition) {
     console.log("Recording: " + definition);
 
-    localStorage.setItem(`key-${travelKey}`, definition);
+    localStorage.setItem(`key-${travelKey.toLowerCase()}`, definition);
 
     let msg = "Cool, now I now what " + travelKey + " is.";
     speakThis(msg);
     speechBubble.innerHTML = msg;
     speechBubble.style.opacity = "1";
+
+    msgInput.value = null;
 
     activeLearning = false;
     step2 = false;
