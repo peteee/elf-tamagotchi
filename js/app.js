@@ -247,7 +247,7 @@ function feed() {
     speakThis(msg);
     speechBubble.innerHTML = msg;
     speechBubble.style.opacity = "1";
-
+    isHungry = false;
     mood = 1.5;
 }
 
@@ -259,7 +259,7 @@ function play() {
     speakThis(msg);
     speechBubble.innerHTML = msg;
     speechBubble.style.opacity = "1";
-
+    isBored = false;
     mood = 2.0;
 }
 
@@ -286,6 +286,7 @@ function learn() {
     // fix mood & boredom immediately
     mood = 2.0;
     boredDisplay.style.display = "none";
+    isBored = false;
 
     setTimeout(() => {
         activeLearning = true;
